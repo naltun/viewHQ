@@ -45,8 +45,18 @@ def handle_connection(connMsg):
 @socketio.on('latest_view')
 def handle_view(view):
     # store the latest view for checking
-    redis.set('requestedView', view)
+    redis.set('requestedView', "/{0}".format(view))
     print('[!] The latest view is ' + view)
+
+    # Do we change views? Let's find out
+    currentView = redis.get('currentView').decode('utf-8')
+    requestedView = redis.get('requestedView').decode('utf-8')
+    if currentView != requestedView:
+        print("Changing views from {0} to {1}".format(currentView, requestedView))
+        change_views()
+
+# The function where we actually change views! Yeoo!
+# def change_views():
 
 if __name__ == '__main__':
     ###############
