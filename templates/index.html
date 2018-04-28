@@ -16,7 +16,7 @@
         var socket = io.connect(`http://${document.domain}:${location.port}`);
 
         // verify our websocket connection is established
-        socket.on('connect', () => {
+        socket.on('connect', function() {
             console.log('[*] Websocket connected');
             // emit a message from the client to the server
             // first parameter of emit() is the @socketio route, and the second
