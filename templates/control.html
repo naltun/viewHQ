@@ -25,7 +25,12 @@
                 var pathname = window.location.pathname;
                 socket.emit('connection',
                             `[*] Websocket connected on ${pathname}`);
-                document.getElementById('log').innerHTML = 'Websockect connected';
+                document.getElementById('log').innerHTML = 'Websocket connected';
+            });
+
+            $("button").click(function() {
+                var view = $(this).val();
+                socket.emit('latest_view', view);
             });
         });
     </script>
@@ -39,12 +44,5 @@
         <button value="charts">Charts</button>
         <button value="simulation">Simulation</button>
     </div>
-
-    <script type="text/javascript" charset="utf-8">
-        $("button").click(function() {
-            var view = $(this).val();
-            socket.emit('latest_view', view);
-        });
-    </script>
 </body>
 </html>

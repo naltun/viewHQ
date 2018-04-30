@@ -25,8 +25,16 @@
                 var pathname = window.location.pathname;
                 socket.emit('connection',
                             `[*] Websocket connected on ${pathname}`);
-                document.getElementById('log').innerHTML = 'Websockect connected';
-            });            
+                document.getElementById('log').innerHTML = 'Websocket connected';
+            });
+
+            // Set up our connection for change_views()
+            socket.emit('change_views');
+            // Change the view
+            socket.on('change_views', function(data) {
+                console.log('Message received!');
+                console.log(data);
+            });
         });
     </script>
 </head>

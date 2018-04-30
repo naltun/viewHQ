@@ -46,21 +46,26 @@ def handle_connection(connMsg):
 def handle_view(view):
     # store the latest view for checking
     redis.set('requestedView', "/{0}".format(view))
-    print('[!] The latest view is ' + view)
+    print("[!] The latest view is {0}".format(view))
 
     # Do we change views? Let's find out
     currentView = redis.get('currentView').decode('utf-8')
     requestedView = redis.get('requestedView').decode('utf-8')
     if currentView != requestedView:
-        print("Changing views from {0} to {1}".format(currentView, requestedView))
+        print("[!] Changing views from {0} to {1}".format(currentView, requestedView))
         change_views()
 
+###################
+# Misc. FUNCTIONS #
+###################
 # The function where we actually change views! Yeoo!
+@socketio.on('change_views')
 def change_views():
     # craft a string that contains the JavaScript code for page redirection; afterwards, send it to the client
     newPageUrl = '`http://${document.domain}:${location:port}' + redis.get('requestedView').decode('utf-8') + '`'
     newPageRedir = "document.location.href = {0}".format(newPageUrl)
-    # send or emit data from here
+    emit('change_views', newPageRedir)
+    # emit('change_views', newPageRedir, namespace=redis.get('currentView').decode('utf-8'))
 
 if __name__ == '__main__':
     ###############
@@ -68,4 +73,5 @@ if __name__ == '__main__':
     ###############
     global redis
     redis = redis.StrictRedis(host='localhost', port=6379)
+
     socketio.run(app, debug=True)
