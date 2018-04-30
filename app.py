@@ -62,7 +62,7 @@ def handle_view(view):
 @socketio.on('change_views')
 def change_views():
     # craft a string that contains the JavaScript code for page redirection; afterwards, send it to the client
-    newPageUrl = '`http://${document.domain}:${location:port}' + redis.get('requestedView').decode('utf-8') + '`'
+    newPageUrl = '`http://${document.domain}:${location.port}' + redis.get('requestedView').decode('utf-8') + '`'
     newPageRedir = "document.location.href = {0}".format(newPageUrl)
     emit('change_views', newPageRedir)
     # emit('change_views', newPageRedir, namespace=redis.get('currentView').decode('utf-8'))
