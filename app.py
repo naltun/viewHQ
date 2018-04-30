@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, send, emit
 import redis
 
 ################################################################
@@ -56,7 +56,11 @@ def handle_view(view):
         change_views()
 
 # The function where we actually change views! Yeoo!
-# def change_views():
+def change_views():
+    # craft a string that contains the JavaScript code for page redirection; afterwards, send it to the client
+    newPageUrl = '`http://${document.domain}:${location:port}' + redis.get('requestedView').decode('utf-8') + '`'
+    newPageRedir = "document.location.href = {0}".format(newPageUrl)
+    # send or emit data from here
 
 if __name__ == '__main__':
     ###############

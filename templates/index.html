@@ -13,18 +13,20 @@
     <!-- Flask-SocketIO -->
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
     <script type="text/javascript" charset="utf-8">
-        var socket = io.connect(`http://${document.domain}:${location.port}`);
+        $(document).ready(function() {
+            var socket = io.connect(`http://${document.domain}:${location.port}`);
 
-        // verify our websocket connection is established
-        socket.on('connect', function() {
-            console.log('[*] Websocket connected');
-            // emit a message from the client to the server
-            // first parameter of emit() is the @socketio route, and the second
-            // is the value to be printed in the server log
-            var pathname = window.location.pathname;
-            socket.emit('connection',
-                        `[*] Websocket connected on ${pathname}`);
-            document.getElementById('log').innerHTML = 'Websockect connected';
+            // verify our websocket connection is established
+            socket.on('connect', function() {
+                console.log('[*] Websocket connected');
+                // emit a message from the client to the server
+                // first parameter of emit() is the @socketio route, and the second
+                // is the value to be printed in the server log
+                var pathname = window.location.pathname;
+                socket.emit('connection',
+                            `[*] Websocket connected on ${pathname}`);
+                document.getElementById('log').innerHTML = 'Websockect connected';
+            });            
         });
     </script>
 </head>
