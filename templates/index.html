@@ -29,11 +29,11 @@
             });
 
             // Set up our connection for change_views()
-            socket.emit('change_views');
+            // socket.emit('change_views');
             // Change the view
             socket.on('change_views', function(data) {
                 console.log('Message received!');
-                console.log(data);
+                eval(data);
             });
         });
     </script>
